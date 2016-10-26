@@ -1,6 +1,6 @@
 package controllers
 
-import models._
+import models.{GamesTable, _}
 import play.api.Play.current
 import play.api.db.slick.Config.driver.simple._
 import play.api.db.slick._
@@ -17,9 +17,22 @@ object Application extends Controller {
   implicit val gameFormat = Json.format[Game]
   implicit val dbGameFormat = Json.format[DbGame]
 
+  def convertGame(game : DbGame)  = {
+    Json.obj(
+      "id" -> game.id,
+      "players" -> List(
+        Json.obj("name" -> game.player_1, "score" -> game.score_1),
+        Json.obj("name" -> game.player_2, "score" -> game.score_2)
+      ),
+      "time" -> game.time_stamp
+    )
+  }
+
 
   def jsonFindAll = DBAction { implicit rs =>
-    Ok(Json.obj("games" -> toJson(games.list))).withHeaders(
+    val allGames = games.list.map(convertGame)
+
+    Ok(Json.obj("games" -> allGames)).withHeaders(
       "Access-Control-Allow-Origin" -> "*",
       "Access-Control-Allow-Methods" -> "GET, POST, PUT, DELETE, OPTIONS",
       "Access-Control-Allow-Headers" -> "Accept, Origin, Content-type, X-Json, X-Prototype-Version, X-Requested-With",
@@ -32,7 +45,8 @@ object Application extends Controller {
     rs.request.body.validate[Game].map { game =>
       val dbGame = DbGame(0, game.player_1, game.player_2, game.score_1, game.score_1, Time.now)
       games.insert(dbGame)
-      Ok(Json.obj("game" -> toJson(dbGame))).withHeaders(
+
+      Ok(Json.obj("game" -> convertGame(dbGame))).withHeaders(
         "Access-Control-Allow-Origin" -> "*",
         "Access-Control-Allow-Methods" -> "GET, POST, PUT, DELETE, OPTIONS",
         "Access-Control-Allow-Headers" -> "Accept, Origin, Content-type, X-Json, X-Prototype-Version, X-Requested-With",
