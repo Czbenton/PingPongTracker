@@ -3,15 +3,9 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index
 
-# Home page
-POST    /insert                     controllers.Application.insert
+GET         /games        controllers.Application.jsonFindAll
 
-GET     /json/all                   controllers.Application.jsonFindAll
+POST        /games        controllers.Application.insert
 
-# Home page
-POST    /json/insert                controllers.Application.jsonInsert
-
-# Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET         /assets/*file        controllers.Assets.at(path="/public", file)
