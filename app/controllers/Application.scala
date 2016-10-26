@@ -32,7 +32,7 @@ object Application extends Controller {
     rs.request.body.validate[Game].map { game =>
       val dbGame = DbGame(game.player_1, game.player_2, game.score_1, game.score_1, Time.now)
       games.insert(dbGame)
-      Ok(toJson(dbGame)).withHeaders(
+      Ok(Json.obj("game" -> toJson(dbGame))).withHeaders(
         "Access-Control-Allow-Origin" -> "*",
         "Access-Control-Allow-Methods" -> "GET, POST, PUT, DELETE, OPTIONS",
         "Access-Control-Allow-Headers" -> "Accept, Origin, Content-type, X-Json, X-Prototype-Version, X-Requested-With",
