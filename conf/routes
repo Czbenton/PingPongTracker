@@ -9,3 +9,5 @@ GET         /games        controllers.Application.jsonFindAll
 POST        /games        controllers.Application.insert
 
 GET         /assets/*file        controllers.Assets.at(path="/public", file)
+
+OPTIONS     /*            controllers.Application.preflight
