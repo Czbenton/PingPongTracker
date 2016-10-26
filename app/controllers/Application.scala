@@ -57,7 +57,7 @@ object Application extends Controller {
   }
 
   def preflight(all: String) = {
-    Ok().withHeaders(
+    Ok(Json.obj("status" -> "ok")).withHeaders(
       "Access-Control-Allow-Origin" -> "*",
       "Access-Control-Allow-Methods" -> "GET, POST, PUT, DELETE, OPTIONS",
       "Access-Control-Allow-Headers" -> "Accept, Origin, Content-type, X-Json, X-Prototype-Version, X-Requested-With",
