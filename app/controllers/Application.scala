@@ -19,14 +19,26 @@ object Application extends Controller {
 
 
   def jsonFindAll = DBAction { implicit rs =>
-    Ok(toJson(games.list))
+    Ok(Json.obj("games" -> toJson(games.list))).withHeaders(
+      "Access-Control-Allow-Origin" -> "*",
+      "Access-Control-Allow-Methods" -> "GET, POST, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers" -> "Accept, Origin, Content-type, X-Json, X-Prototype-Version, X-Requested-With",
+      "Access-Control-Allow-Credentials" -> "true",
+      "Access-Control-Max-Age" -> (60 * 60 * 24).toString
+    )
   }
 
   def insert = DBAction(parse.json) { implicit rs =>
     rs.request.body.validate[Game].map { game =>
       val dbGame = DbGame(game.player_1, game.player_2, game.score_1, game.score_1, Time.now)
       games.insert(dbGame)
-      Ok(toJson(dbGame))
+      Ok(toJson(dbGame)).withHeaders(
+        "Access-Control-Allow-Origin" -> "*",
+        "Access-Control-Allow-Methods" -> "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers" -> "Accept, Origin, Content-type, X-Json, X-Prototype-Version, X-Requested-With",
+        "Access-Control-Allow-Credentials" -> "true",
+        "Access-Control-Max-Age" -> (60 * 60 * 24).toString
+      )
     }.getOrElse(BadRequest("invalid json"))
   }
 
