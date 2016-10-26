@@ -14,27 +14,27 @@ import play.api.libs.json.Json
  */
 class JsonApplicationSpec extends Specification {
 
-  "Application" should {
-
-    "render the index page" in new WithApplication {
-
-      val kitty = Json.obj("name" -> "Scarlett", "color" -> "Black & White")
-      val postRequest = FakeRequest(
-                  method = "POST",
-                  uri = "/json/insert",
-                  headers = FakeHeaders(
-                    Seq("Content-type"->Seq("application/json"))
-                  ),
-                  body =  kitty
-                )
-      val Some(result) = route(postRequest)
-      status(result) must equalTo(OK)
-
-      val home = route(FakeRequest(GET, "/json/all")).get
-
-      status(home) must equalTo(OK)
-      contentType(home) must beSome.which(_ == "application/json")
-      contentAsString(home) must contain ("Scarlett")
-    }
-  }
+//  "Application" should {
+//
+//    "render the index page" in new WithApplication {
+//
+//      val kitty = Json.obj("name" -> "Scarlett", "color" -> "Black & White")
+//      val postRequest = FakeRequest(
+//                  method = "POST",
+//                  uri = "/json/insert",
+//                  headers = FakeHeaders(
+//                    Seq("Content-type"->Seq("application/json"))
+//                  ),
+//                  body =  kitty
+//                )
+//      val Some(result) = route(postRequest)
+//      status(result) must equalTo(OK)
+//
+//      val home = route(FakeRequest(GET, "/json/all")).get
+//
+//      status(home) must equalTo(OK)
+//      contentType(home) must beSome.which(_ == "application/json")
+//      contentAsString(home) must contain ("Scarlett")
+//    }
+//  }
 }
