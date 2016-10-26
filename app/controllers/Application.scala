@@ -30,7 +30,7 @@ object Application extends Controller {
 
 
   def jsonFindAll = DBAction { implicit rs =>
-    val allGames = games.list.map(convertGame)
+    val allGames = games.sortBy(_.time_Stamp.desc).list.map(convertGame)
 
     Ok(Json.obj("games" -> allGames)).withHeaders(
       "Access-Control-Allow-Origin" -> "*",
