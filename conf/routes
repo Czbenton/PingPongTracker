@@ -10,4 +10,4 @@ POST        /games        controllers.Application.insert
 
 GET         /assets/*file        controllers.Assets.at(path="/public", file)
 
-OPTIONS     /*            controllers.Application.preflight
+OPTIONS     /games            controllers.Application.preflight
