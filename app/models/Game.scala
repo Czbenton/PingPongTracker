@@ -6,7 +6,7 @@ import play.api.db.slick.Config.driver.simple._
 
 case class Game(player_1: String, player_2: String, score_1: String, score_2: String)
 
-case class DbGame(player_1: String, player_2: String, score_1: String, score_2: String, time_stamp: String)
+case class DbGame(id: Int, player_1: String, player_2: String, score_1: String, score_2: String, time_stamp: String)
 
 object Time{
   val now = LocalDateTime.now().toString
@@ -28,5 +28,5 @@ class GamesTable(tag: Tag) extends Table[DbGame](tag, "games") {
 
   def time_Stamp = column[String]("time_stamp", O.NotNull)
 
-  def * = (player_1, player_2, score_1, score_2, time_Stamp) <> (DbGame.tupled, DbGame.unapply _)
+  def * = (id, player_1, player_2, score_1, score_2, time_Stamp) <> (DbGame.tupled, DbGame.unapply _)
 }
